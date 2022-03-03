@@ -1,25 +1,27 @@
-﻿namespace CourierKata.Services;
+﻿using CourierKata.Helpers;
+
+namespace CourierKata.Services;
 
 public interface IParcelPricingService
 {
-    decimal GetDeliveryPrice(decimal length, decimal height, decimal width);
+    decimal GetDeliveryPrice(decimal length, decimal height, decimal width, decimal weight);
 }
 public class ParcelPricingService : IParcelPricingService
 {
-    public decimal GetDeliveryPrice(decimal length,decimal height, decimal width)
-    {
-        var parcelDimensionCount = length + height + width;
+    private readonly IParcelDimensionHelper _parcelDimensionHelper;
+    private readonly IParcelWeightHelper _parcelWeightHelper;
 
-        switch (parcelDimensionCount)
-        {
-            case < 10:
-                return 3;
-            case < 50:
-                return 8;
-            case < 100:
-                return 15;
-            default:
-                return 25;
-        }
+    public ParcelPricingService(IParcelDimensionHelper parcelDimensionHelper, IParcelWeightHelper parcelWeightHelper)
+    {
+        _parcelDimensionHelper = parcelDimensionHelper;
+        _parcelWeightHelper = parcelWeightHelper;
+    }
+
+    public decimal GetDeliveryPrice(decimal length,decimal height, decimal width, decimal weight)
+    {
+        var parcelDimensionCost =  _parcelDimensionHelper.CalculateDimensionCostForParcel(length, width, height);
+        var parcelWeightCost = _parcelWeightHelper.CalculateOverWeightCost(weight);
+
+        return (parcelDimensionCost + parcelWeightCost);
     }
 }
