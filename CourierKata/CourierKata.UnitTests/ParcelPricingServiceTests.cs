@@ -18,6 +18,7 @@ public class PricingServiceTests
     [TestCase(10,15,14, 8)]
     [TestCase(20,25,15, 15)]
     [TestCase(50,25,70, 25)]
+    [TestCase(50,25,25, 25)]
     public void PricingService_GetDeliveryPriceForDimensions_CorrectPriceReturned(decimal length, decimal width, decimal height, decimal expectedResult)
     {
         //Arrange
