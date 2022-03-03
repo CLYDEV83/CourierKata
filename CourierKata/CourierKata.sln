@@ -1,0 +1,22 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourierKata", "CourierKata\CourierKata.csproj", "{42556570-5078-4A27-988C-36065AEF66F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CourierKata.UnitTests", "CourierKata.UnitTests\CourierKata.UnitTests.csproj", "{02F0EC34-9055-459B-B706-60D192D44998}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{42556570-5078-4A27-988C-36065AEF66F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42556570-5078-4A27-988C-36065AEF66F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42556570-5078-4A27-988C-36065AEF66F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42556570-5078-4A27-988C-36065AEF66F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02F0EC34-9055-459B-B706-60D192D44998}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02F0EC34-9055-459B-B706-60D192D44998}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02F0EC34-9055-459B-B706-60D192D44998}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02F0EC34-9055-459B-B706-60D192D44998}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
