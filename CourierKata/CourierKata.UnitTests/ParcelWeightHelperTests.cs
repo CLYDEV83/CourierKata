@@ -1,4 +1,5 @@
 ﻿using CourierKata.Helpers;
+using CourierKata.Models;
 using NUnit.Framework;
 
 namespace CourierKata.UnitTests;
@@ -25,8 +26,12 @@ public class ParcelWeightHelperTests
     {
 
         //Arrange
+        var parcel = new Parcel
+        {
+            Weight = weight
+        };
         //Act
-        var result = _parcelWeightHelper.CalculateOverWeightCost(weight);
+        var result = _parcelWeightHelper.CalculateOverWeightCost(parcel);
 
         //Assert
         Assert.AreEqual(expectedResult, result);

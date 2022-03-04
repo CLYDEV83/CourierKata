@@ -3,36 +3,39 @@
 namespace CourierKata.Helpers;
 public interface IParcelWeightHelper
 {
-    decimal CalculateOverWeightCost(decimal weight);
+    decimal CalculateOverWeightCost(Parcel parcel);
 }
 
 public class ParcelWeightHelper : IParcelWeightHelper
 {
-    public decimal CalculateOverWeightCost(decimal weight)
+    public decimal CalculateOverWeightCost(Parcel parcel)
     {
         const int overWeightCharge = 2;
         
-        var (weightCategory, weightLimit) = GetParcelCategoryLimit(weight);
+        var weightLimit  = GetParcelCategoryLimit(parcel.WeightCategory);
         
-        return weightCategory == ParcelWeightCategoryEnum.Heavy
-            ? (weight - weightLimit) + 50
-            : (weight - weightLimit) * overWeightCharge;
+        return parcel.WeightCategory == ParcelWeightCategoryEnum.Heavy
+            ? (parcel.Weight - weightLimit) + 50
+            : (parcel.Weight - weightLimit) * overWeightCharge;
     }
 
-    private Tuple<ParcelWeightCategoryEnum, int> GetParcelCategoryLimit(decimal weight)
+    private decimal GetParcelCategoryLimit(ParcelWeightCategoryEnum weightCategory)
     {
-        switch (weight)
+        switch (weightCategory)
         {
-            case < 3:
-                return Tuple.Create(ParcelWeightCategoryEnum.Small, 1) ;
-            case >= 3 and < 6:
-                return Tuple.Create(ParcelWeightCategoryEnum.Medium,3);
-            case >= 6 and  < 10:
-                return Tuple.Create(ParcelWeightCategoryEnum.Large,6);
-            case >= 10 and <50:
-                return Tuple.Create(ParcelWeightCategoryEnum.XL, 10);
+            case ParcelWeightCategoryEnum.Small:
+                return 1;
+            case ParcelWeightCategoryEnum.Medium:
+                return 3;
+            case ParcelWeightCategoryEnum.Large:
+                return 6;
+            case ParcelWeightCategoryEnum.XL:
+                return 10;
+            case ParcelWeightCategoryEnum.Heavy:
+                return 50;
             default:
-                return Tuple.Create(ParcelWeightCategoryEnum.Heavy, 50);
+                throw new ArgumentOutOfRangeException(nameof(weightCategory), weightCategory, null);
         }
     }
+    
 }

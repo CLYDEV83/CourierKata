@@ -1,10 +1,11 @@
 ﻿using CourierKata.Helpers;
+using CourierKata.Models;
 
 namespace CourierKata.Services;
 
 public interface IParcelPricingService
 {
-    decimal GetDeliveryPrice(decimal length, decimal height, decimal width, decimal weight);
+    decimal GetDeliveryPrice(Parcel parcel);
 }
 public class ParcelPricingService : IParcelPricingService
 {
@@ -17,10 +18,10 @@ public class ParcelPricingService : IParcelPricingService
         _parcelWeightHelper = parcelWeightHelper;
     }
 
-    public decimal GetDeliveryPrice(decimal length,decimal height, decimal width, decimal weight)
+    public decimal GetDeliveryPrice(Parcel parcel)
     {
-        var parcelDimensionCost =  _parcelDimensionHelper.CalculateDimensionCostForParcel(length, width, height);
-        var parcelWeightCost = _parcelWeightHelper.CalculateOverWeightCost(weight);
+        var parcelDimensionCost =  _parcelDimensionHelper.CalculateDimensionCostForParcel(parcel.Length, parcel.Height, parcel.Width);
+        var parcelWeightCost = _parcelWeightHelper.CalculateOverWeightCost(parcel);
 
         return (parcelDimensionCost + parcelWeightCost);
     }

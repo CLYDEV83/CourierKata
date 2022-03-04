@@ -1,4 +1,5 @@
 using CourierKata.Helpers;
+using CourierKata.Models;
 using CourierKata.Services;
 using Moq;
 using NUnit.Framework;
@@ -28,12 +29,20 @@ public class PricingServiceTests
     [TestCase(50,25,25,20, 25)]
     public void PricingService_GetDeliveryPriceForDimensions_CorrectPriceReturned(decimal length, decimal width, decimal height, decimal weight, decimal expectedResult)
     {
+
         //Arrange
+        var parcel = new Parcel
+        {
+            Height = height,
+            Length = length,
+            Weight = weight,
+            Width = width
+        };
         _parcelDimensionHelperMock.Setup(x => x.CalculateDimensionCostForParcel(length, height, width))
             .Returns(expectedResult);
-        _parcelWeightHelperMock.Setup(x => x.CalculateOverWeightCost(It.IsAny<decimal>())).Returns(It.IsAny<decimal>());
+        _parcelWeightHelperMock.Setup(x => x.CalculateOverWeightCost(It.IsAny<Parcel>()));
         //Act
-        var result = _sut.GetDeliveryPrice(length, width, height, weight);
+        var result = _sut.GetDeliveryPrice(parcel);
         
         //Assert
         Assert.AreEqual(expectedResult, result);
@@ -44,20 +53,27 @@ public class PricingServiceTests
     public void PricingService_GetDeliveryPrice_RequiredHelpersCalled(decimal length, decimal width, decimal height, decimal weight, decimal expectedResult)
     {
         //Arrange
+        var parcel = new Parcel
+        {
+            Height = height,
+            Length = length,
+            Weight = weight,
+            Width = width
+        };
         _parcelDimensionHelperMock
             .Setup(x => x.CalculateDimensionCostForParcel(It.IsAny<decimal>(), It.IsAny<decimal>(), It.IsAny<decimal>()))
             .Returns(It.IsAny<decimal>()).Verifiable();
         _parcelWeightHelperMock
-            .Setup(x => x.CalculateOverWeightCost(It.IsAny<decimal>()))
+            .Setup(x => x.CalculateOverWeightCost(It.IsAny<Parcel>()))
             .Returns(It.IsAny<decimal>())
             .Verifiable();
         
         //Act
-        _sut.GetDeliveryPrice(length, width, height, weight);
+        _sut.GetDeliveryPrice(parcel);
         
         //Assert
       _parcelDimensionHelperMock.Verify(x => x.CalculateDimensionCostForParcel(It.IsAny<decimal>(), It.IsAny<decimal>(), It.IsAny<decimal>()), Times.Once);
-      _parcelWeightHelperMock.Verify(x => x.CalculateOverWeightCost(It.IsAny<decimal>()), Times.Once);
+      _parcelWeightHelperMock.Verify(x => x.CalculateOverWeightCost(It.IsAny<Parcel>()), Times.Once);
     }
     
     [Test]
@@ -68,11 +84,18 @@ public class PricingServiceTests
     {
         
         //Arrange
+        var parcel = new Parcel
+        {
+            Height = 6,
+            Length = 7,
+            Weight = 8,
+            Width = 9
+        };
         _parcelDimensionHelperMock.Setup(x => x.CalculateDimensionCostForParcel(It.IsAny<decimal>(), It.IsAny<decimal>(), It.IsAny<decimal>()))
             .Returns(dimensionCharge);
-        _parcelWeightHelperMock.Setup(x => x.CalculateOverWeightCost(It.IsAny<decimal>())).Returns(overWeightCharge);
+        _parcelWeightHelperMock.Setup(x => x.CalculateOverWeightCost(It.IsAny<Parcel>())).Returns(overWeightCharge);
         //Act
-        var result = _sut.GetDeliveryPrice(6, 7, 8, 9);
+        var result = _sut.GetDeliveryPrice(parcel);
         
         //Assert
         Assert.AreEqual(expectedResult, result);
