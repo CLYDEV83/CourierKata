@@ -18,6 +18,9 @@ public class ParcelWeightHelperTests
     [TestCase(5,4)]
     [TestCase(9,6)]
     [TestCase(15,10)]
+    [TestCase(50, 50)]
+    [TestCase(51, 51)]
+    [TestCase(55, 55)]
     public void ParcelWeightHelper_CalculateOverWeightCost_CorrectOverWeightCostApplied(decimal weight, decimal expectedResult)
     {
 

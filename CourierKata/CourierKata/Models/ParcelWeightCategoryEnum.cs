@@ -6,4 +6,5 @@ public enum ParcelWeightCategoryEnum
     Medium,
     Large,
     XL,
+    Heavy
 }
