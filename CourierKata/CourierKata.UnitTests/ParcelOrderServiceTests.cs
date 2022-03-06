@@ -1,4 +1,6 @@
-﻿using CourierKata.Helpers;
+﻿using System.Collections.Generic;
+using CourierKata.Helpers;
+using CourierKata.Models;
 using CourierKata.Services;
 using Moq;
 using NUnit.Framework;
@@ -30,9 +32,38 @@ public class ParcelOrderServiceTests
     public void OrderService_CreateOrder_ReturnsOrder()
     {
         //arrange
-        
-        
+        var parcelDimension = 9;
+        var parcelPrice = 20;
+        var overWeightCost = 2;
+        var discountTotal = 5;
+        var parcelList = new List<Parcel>{
+            new Parcel{Weight = 3, Cost = 1},
+            new Parcel{Weight = 3, Cost = 4},
+        };
+        _mockDimensionHelper
+            .Setup(
+                x => x.CalculateDimensionCostForParcel(It.IsAny<decimal>(), It.IsAny<decimal>(), It.IsAny<decimal>()))
+            .Returns(parcelDimension);
+        _mockPricingService
+            .Setup(x => x.GetParcelPrice(It.IsAny<Parcel>()))
+            .Returns(parcelPrice);
+        _mockWeghtHelper
+            .Setup(x => x.CalculateOverWeightCost(It.IsAny<Parcel>()))
+            .Returns(overWeightCost);
+        _mockPromoHelper
+            .Setup(x => x.GetPromoParcels(It.IsAny<List<Parcel>>()))
+            .Returns(It.IsAny<Dictionary<PromoTypeEnum, IEnumerable<Parcel>>>());
+        _mockPromoHelper
+            .Setup(x => x.GetDiscountForPromo(It.IsAny<Dictionary<PromoTypeEnum, IEnumerable<Parcel>>>()))
+            .Returns(discountTotal);
+        _mockShippingHelper
+            .Setup(x => x.ApplySpeedyShippingCharge(It.IsAny<decimal>()))
+            .Returns(34);
+
         //act
+        var result = _sut.CreateOrder(parcelList, true);
         //assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(34, result.OrderCost);
     }
 }
