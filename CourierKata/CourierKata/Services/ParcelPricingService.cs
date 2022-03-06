@@ -5,7 +5,7 @@ namespace CourierKata.Services;
 
 public interface IParcelPricingService
 {
-    decimal GetDeliveryPrice(Parcel parcel);
+    decimal GetParcelPrice(Parcel parcel);
 }
 public class ParcelPricingService : IParcelPricingService
 {
@@ -18,11 +18,11 @@ public class ParcelPricingService : IParcelPricingService
         _parcelWeightHelper = parcelWeightHelper;
     }
 
-    public decimal GetDeliveryPrice(Parcel parcel)
+    public decimal GetParcelPrice(Parcel parcel)
     {
         var parcelDimensionCost =  _parcelDimensionHelper.CalculateDimensionCostForParcel(parcel.Length, parcel.Height, parcel.Width);
         var parcelWeightCost = _parcelWeightHelper.CalculateOverWeightCost(parcel);
-
+        
         return (parcelDimensionCost + parcelWeightCost);
     }
 }

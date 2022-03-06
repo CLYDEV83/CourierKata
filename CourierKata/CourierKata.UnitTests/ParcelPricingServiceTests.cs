@@ -42,7 +42,7 @@ public class PricingServiceTests
             .Returns(expectedResult);
         _parcelWeightHelperMock.Setup(x => x.CalculateOverWeightCost(It.IsAny<Parcel>()));
         //Act
-        var result = _sut.GetDeliveryPrice(parcel);
+        var result = _sut.GetParcelPrice(parcel);
         
         //Assert
         Assert.AreEqual(expectedResult, result);
@@ -69,7 +69,7 @@ public class PricingServiceTests
             .Verifiable();
         
         //Act
-        _sut.GetDeliveryPrice(parcel);
+        _sut.GetParcelPrice(parcel);
         
         //Assert
       _parcelDimensionHelperMock.Verify(x => x.CalculateDimensionCostForParcel(It.IsAny<decimal>(), It.IsAny<decimal>(), It.IsAny<decimal>()), Times.Once);
@@ -95,7 +95,7 @@ public class PricingServiceTests
             .Returns(dimensionCharge);
         _parcelWeightHelperMock.Setup(x => x.CalculateOverWeightCost(It.IsAny<Parcel>())).Returns(overWeightCharge);
         //Act
-        var result = _sut.GetDeliveryPrice(parcel);
+        var result = _sut.GetParcelPrice(parcel);
         
         //Assert
         Assert.AreEqual(expectedResult, result);

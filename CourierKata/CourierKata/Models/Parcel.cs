@@ -10,9 +10,10 @@ public class Parcel
 
     public decimal Weight { get; set; }
 
+    public decimal Cost { get; set; }
     public ParcelWeightCategoryEnum WeightCategory => GetParcelWeightCategory(Weight);
     
-    
+
     private ParcelWeightCategoryEnum GetParcelWeightCategory(decimal weight)
     {
         switch (weight)
